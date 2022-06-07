@@ -4,9 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from '@material-ui/core/Grid';
-import Header from "./Header";
-import Footer from "./Footer";
-
 import studentswebinar from '../images/landpageimage.png';
 import eclipse from '../images/Ellipse 1.png';
 import elipse from '../images/Ellipse 3.png';
