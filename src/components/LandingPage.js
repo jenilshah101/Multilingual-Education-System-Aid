@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },  
   elipse:{
-      display: 'flex',
-      justifyContent: 'right',
-      alignItems:'right',
+    display: 'flex',
+    justifyContent: 'right',
+    alignItems:'right',
   },
   gridclass: {
     textAlign:'center',
@@ -54,33 +54,33 @@ function LandPage() {
     event.preventDefault();
     
   };
-
+  
   return (
     <div>
-        <div  className={classes.elipse}>
-        <img src={eclipse} alt='Ellipse'/>   
-        </div> 
-        <Grid container spacing={2} className={classes.gridclass}>
-        <Grid item xs={4}>
-        <img src={studentswebinar} alt='Stand' style={{width: '600px',paddingLeft:15}}/>    
-        </Grid>
-        <Grid item xs={8}>
-        <Typography variant='h2' className={classes.type} >Smart Education System</Typography>
-        <p className={classes.subline}><center>The free, fun and effective <br />way of learning English!</center></p>
-        <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
-                Get Started
-        </Button>
-        <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={handleSubmit}>
-                Already have an account?
-              </Button>
-              <div className={classes.elipse}>
-        <img src={elipse} alt='Ellipse' width={400} height={170}/>   
-        </div>
-        </Grid>
-        </Grid>
-        
+    <div  className={classes.elipse}>
+    <img src={eclipse} alt='Ellipse'/>   
+    </div> 
+    <Grid container spacing={2} className={classes.gridclass}>
+    <Grid item xs={4}>
+    <img src={studentswebinar} alt='Stand' style={{width: '600px',paddingLeft:15}}/>    
+    </Grid>
+    <Grid item xs={8}>
+    <Typography variant='h2' className={classes.type} >Smart Education System</Typography>
+    <p className={classes.subline}><center>The free, fun and effective <br />way of learning English!</center></p>
+    <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
+    Get Started
+    </Button>
+    <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={handleSubmit}>
+    Already have an account?
+    </Button>
+    <div className={classes.elipse}>
+    <img src={elipse} alt='Ellipse' width={400} height={170}/>   
     </div>
-  );
-}
-
-export default LandPage;
+    </Grid>
+    </Grid>
+    
+    </div>
+    );
+  }
+  
+  export default LandPage;

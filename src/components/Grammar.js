@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -29,14 +29,27 @@ const useStyles = makeStyles((theme) => ({
 
 function GrammaticalAndAssessment() {
 
+  const [grammarContent, setGrammarContent] = useState([]);
   const classes = useStyles();
   
   const handleSubmit = (event) => {
     event.preventDefault();
-
   };
 
+  const fetchGrammar = async () => {
+    const response = await fetch(
+      "http://192.168.43.61:8000/grammar/1"
+    );
+    const data = await response.json()    
+    setGrammarContent(data["grammarticalInfo"])
+  }
+
   
+  useEffect(() => {
+    fetchGrammar()
+  }, []);
+
+
   return (
     <div>
         <Header></Header><br/>
