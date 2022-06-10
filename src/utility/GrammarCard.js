@@ -1,0 +1,53 @@
+import React from 'react';
+
+function GmCard( sent, nouns, adjective, verb, conjunction, adposition ) {
+    return (
+        <table style={{marginBottom: '1%'}}>
+            <tr>
+              <th>Sentence:</th>
+              <td>{sent}</td>
+            </tr>
+            <tr>
+              <th>Noun(संज्ञा):</th>
+              {
+                nouns.map((info) => {
+                  return <td>{info["word"]} ({info["tagExp"]})</td>
+                })
+              }
+            </tr>
+            <tr>
+              <th>Adjective(विशेषण):</th>
+              {
+                adjective.map((info) => {
+                  return <td>{info["word"]} ({info["tagExp"]})</td>
+                })
+              }
+            </tr>
+            <tr>
+              <th>Verb(क्रिया):</th>
+              {
+                verb.map((info) => {
+                  return <td>{info["word"]} ({info["tagExp"]})</td>
+                })
+              }
+            </tr>
+            <tr>
+              <th>Conjunction(संयोजक):</th>
+              {
+                conjunction.map((info) => {
+                  return <td>{info["word"]} ({info["tagExp"]})</td>
+                })
+              }
+            </tr>
+            <tr>
+              <th>Adposition(अनुस्थापन):</th>
+              {
+                adposition.map((info) => {
+                  return <td>{info["word"]} ({info["tagExp"]})</td>
+                })
+              }
+            </tr>
+          </table>
+    )
+}
+export default GmCard;

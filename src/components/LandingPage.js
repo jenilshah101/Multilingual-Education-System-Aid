@@ -4,12 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from '@material-ui/core/Grid';
-import Header from "./Header";
-import Footer from "./Footer";
-
 import studentswebinar from '../images/landpageimage.png';
 import eclipse from '../images/Ellipse 1.png';
 import elipse from '../images/Ellipse 3.png';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   imgclass:{
@@ -47,38 +45,33 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LandPage() {
-  
   const classes = useStyles();
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
-  };
-  
+  const navigate = useNavigate();
+
   return (
     <div>
-    <div  className={classes.elipse}>
-    <img src={eclipse} alt='Ellipse'/>   
-    </div> 
-    <Grid container spacing={2} className={classes.gridclass}>
-    <Grid item xs={4}>
-    <img src={studentswebinar} alt='Stand' style={{width: '600px',paddingLeft:15}}/>    
-    </Grid>
-    <Grid item xs={8}>
-    <Typography variant='h2' className={classes.type} >Smart Education System</Typography>
-    <p className={classes.subline}><center>The free, fun and effective <br />way of learning English!</center></p>
-    <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
-    Get Started
-    </Button>
-    <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={handleSubmit}>
-    Already have an account?
-    </Button>
-    <div className={classes.elipse}>
-    <img src={elipse} alt='Ellipse' width={400} height={170}/>   
-    </div>
-    </Grid>
-    </Grid>
-    
+        <div  className={classes.elipse}>
+        <img src={eclipse} alt='Ellipse'/>   
+        </div> 
+        <Grid container spacing={2} className={classes.gridclass}>
+        <Grid item xs={4}>
+        <img src={studentswebinar} alt='Stand' style={{width: '600px',paddingLeft:15}}/>    
+        </Grid>
+        <Grid item xs={8}>
+        <Typography variant='h2' className={classes.type} >Multilingual Education System</Typography>
+        <p className={classes.subline}><center>The free, fun and effective <br />way of learning English!</center></p>
+        <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/signup");}}>
+                Get Started
+        </Button>
+        <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={() => {navigate("/login");}}>
+                Already have an account?
+              </Button>
+              <div className={classes.elipse}>
+        <img src={elipse} alt='Ellipse' width={400} height={170}/>   
+        </div>
+        </Grid>
+        </Grid>
+        
     </div>
     );
   }

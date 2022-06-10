@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import { useNavigate } from 'react-router-dom';
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from "@material-ui/core/Grid";
 import Header from "./Header";
 import Footer from "./Footer";
-import "../constants";
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -27,40 +29,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function VocabDevComp() {
+
+  const location = useLocation();
+
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
+  const [isChapterLoading, setIsChapterLoading] = useState(false);
+  const [isVocabContentLoading, setIsKeywordLoading] = useState(false);
 
   const classes = useStyles();
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    navigate("/summarization");
   };
 
   const fetchChp = async () => {
+    setIsChapterLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/chapters/1"
+      "http://192.168.43.61:8000/chapters/" + location.state.id
     );
-    const data = await response.json()    
+    const data = await response.json()
+    setIsChapterLoading(false)
     setChapterContent(data["content"])
   }
 
   const fetchVocab = async () => {
+    setIsKeywordLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/keyword/1"
+      "http://192.168.43.61:8000/keyword/" + location.state.id
     );
-    const data = await response.json()    
-    const renderData = (data["keywords"]).map((item) =>{
-      console.log(item)
+    const data = await response.json()
+    const renderData = (data["keywords"]).map((item) => {      
       return <Typography style={{ textAlign: "left", padding: 10 }}>
-        Word: {item["word"]}
+        <span style = {{fontWeight: 'bold'}}> Word:</span> {item["word"]}
         <br />
-        Meaning: {item["definition"].toString()}
+        <span style = {{fontWeight: 'bold'}}>Definition: <br /></span>{item["definition"].toString()}
         <br />
-        Synonyms: {item["synonyms"].toString()}
+        <span style = {{fontWeight: 'bold'}}>Synonyms: <br /></span>{item["synonyms"].toString()}
         <br />
-        Antonyms: {item["antonyms"].toString()}
+        <span style = {{fontWeight: 'bold'}}>Antonyms: <br /></span>{item["antonyms"].toString()}
         <br />
       </Typography>
     });
+    console.log("HERE")
+    console.log(typeof renderData)
+    setIsKeywordLoading(false)
     setVocabContent(renderData)
   }
 
@@ -85,7 +100,9 @@ function VocabDevComp() {
             <br />
             <Paper elevation={2}>
               <Typography style={{ textAlign: "left", padding: 10 }}>
-                {chapterContent}
+                {
+                  isChapterLoading ? <LoadingSpinner /> : chapterContent
+                }
               </Typography>
             </Paper>
             <br />
@@ -97,7 +114,11 @@ function VocabDevComp() {
             </Typography>
             <br />
             <Paper elevation={2}>
-              {vocabContent}
+              <Typography style={{ textAlign: "left", padding: 10 }}>
+                {
+                  isVocabContentLoading ? <LoadingSpinner /> : vocabContent
+                }
+              </Typography>
             </Paper>
           </Box>
           <br />
@@ -111,11 +132,7 @@ function VocabDevComp() {
             }}
           >
             <Grid item>
-              <Button
-                variant="contained"
-                className={classes.bluecolorcpy}
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/home"); }}>
                 BACK
               </Button>
             </Grid>

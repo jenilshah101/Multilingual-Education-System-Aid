@@ -1,27 +1,32 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Header from "./Header";
-import VocabDev from "./VocabularyDevelopment";
-import SummTrans from "./Summarization";
-import GramAssess from "./Grammar";
-import Footer from "./Footer";
-import { Link } from 'react-router-dom';
 
+import { BrowserRouter as Router, Routes, Route } from  'react-router-dom';
+import LandingPage from './LandingPage';
+import LogIn from './Login';
+import SignUp from './SignUp';
+import Home from './HomePage';
+import VocabDev from './VocabularyDevelopment';
+import SummTrans from './Summarization';
+import Grammar from './Grammar';
+import Assessment from './Assessment';
+import AddChap from './AddChapter';
 
-const useStyles = makeStyles((theme) => ({
-  
-}));
 
 function App(props) {
-
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <Link to="/ "></Link>
-      {props.children}
-
-    </div>
+    <Router>
+            <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<LogIn />} />        
+                <Route path='/signup' element={<SignUp/>} />
+                <Route path='/home' element={<Home/>} />
+                <Route path='/vocabdev' element={<VocabDev/>} />
+                <Route path='/summarization' element={<SummTrans/>} />
+                <Route path='/grammar' element={<Grammar/>} />
+                <Route path='/assessment' element={<Assessment/>} />
+                <Route path='/addchapter' element={<AddChap/>} />
+            </Routes>
+        </Router>
   );
 }
 
