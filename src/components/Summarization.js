@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -8,6 +8,7 @@ import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from '@material-ui/core/Grid';
 import Header from "./Header"
 import Footer from "./Footer"
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const useStyles = makeStyles((theme) => ({
   summarization: {
@@ -29,13 +30,28 @@ const useStyles = makeStyles((theme) => ({
 
 function SummarizeAndTranslate() {
 
+  const [stContent, setStContent] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const classes = useStyles();
   
   const handleSubmit = (event) => {
     event.preventDefault();
-
   };
 
+  const fetchSummaryNTranslation = async () => {
+    setIsLoading(true)
+    const response = await fetch(
+      "http://192.168.43.61:8000/summarize/1"
+    );
+    const data = await response.json()    
+    setIsLoading(false)
+    setStContent(data)
+  }
+
+  useEffect(() => {
+    fetchSummaryNTranslation()
+  }, []);
   
   return (
     <div>
@@ -49,7 +65,9 @@ function SummarizeAndTranslate() {
           </Typography><br/>
           <Paper elevation={2}>
           <Typography style={{ textAlign: 'left' , padding:10}}>
-            Content here
+            {
+              isLoading ? <LoadingSpinner/> : stContent['summary']
+            }
           </Typography>
           </Paper>          
             <br/>
@@ -58,7 +76,9 @@ function SummarizeAndTranslate() {
           </Typography><br/>
           <Paper elevation={2}>
             <Typography style={{ textAlign: 'left', padding: 10 }}>
-            Content here
+            {
+              isLoading ? <LoadingSpinner/> : stContent['translation']
+            }
             </Typography>
           </Paper>          
 
