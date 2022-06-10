@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -10,8 +11,7 @@ import lightblue from "@material-ui/core/colors/lightBlue";
 import TextField from '@mui/material/TextField';
 import Grid from '@material-ui/core/Grid';
 import Footer from "./Footer";
-import head from '../images/Group.png';
-
+import head from '../images/Home.png';
 import Carousel from 'better-react-carousel';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   homepage: {
     display: 'flex',  
     '& > *': {
-    //   backgroundColor: blue[50],
     },
   },
   bluecolor: {
@@ -47,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Homepage() {
-  
   const classes = useStyles();
+  const navigate = useNavigate();
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+    navigate("/vocabdev");
   };
   
   return (
@@ -76,7 +75,7 @@ function Homepage() {
             CHAPTERS
           </Typography><br/>
           
-          <Carousel cols={5} rows={1} gap={2} loop>
+          <Carousel cols={6} rows={1} gap={1} loop>
             
             <Carousel.Item>
             <Card sx={{ maxWidth: 200 }} variant="outlined">
@@ -365,7 +364,7 @@ function Homepage() {
       <br/>
       <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right' , paddingRight: 30}}>
             <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
+              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/addchapter");}}>
                 ADD CHAPTER
               </Button>
             </Grid>

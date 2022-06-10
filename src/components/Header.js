@@ -17,7 +17,7 @@ function Head() {
 
     
 <AppBar position="static">
-        <h2 className={classes.headline}> SMART EDUCATION SYSTEM</h2>
+        <h2 className={classes.headline}> MULTILINGUAL EDUCATION SYSTEM</h2>
       </AppBar>
     );
 }

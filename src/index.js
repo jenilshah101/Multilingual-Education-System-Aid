@@ -1,14 +1,8 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
-//import Routing from './routing';
-//import LandingPage from './components/LandingPage';
-//import VocabDev from './components/VocabularyDevelopment';
-// import VocabDev from './components/AddChapter';
-// import App from './components/App'
-//import SignUp from './components/SignUp';
-//import LogIn from './components/Login';
-import Home from './components/HomePage';
+import App from './components/App'; 
 
 ReactDOM.render(
-    <Home />,
+    <App />,
     document.getElementById('root')
 );

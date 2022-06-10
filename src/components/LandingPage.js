@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import studentswebinar from '../images/landpageimage.png';
 import eclipse from '../images/Ellipse 1.png';
 import elipse from '../images/Ellipse 3.png';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   imgclass:{
@@ -44,13 +45,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LandPage() {
-  
   const classes = useStyles();
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
-  };
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -62,12 +58,12 @@ function LandPage() {
         <img src={studentswebinar} alt='Stand' style={{width: '600px',paddingLeft:15}}/>    
         </Grid>
         <Grid item xs={8}>
-        <Typography variant='h2' className={classes.type} >Smart Education System</Typography>
+        <Typography variant='h2' className={classes.type} >Multilingual Education System</Typography>
         <p className={classes.subline}><center>The free, fun and effective <br />way of learning English!</center></p>
-        <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
+        <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/signup");}}>
                 Get Started
         </Button>
-        <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={handleSubmit}>
+        <br/><br/><Button variant="outlined"  className={classes.btncpy} onClick={() => {navigate("/login");}}>
                 Already have an account?
               </Button>
               <div className={classes.elipse}>

@@ -34,8 +34,8 @@ function Foot() {
     return (
         <div>
         <Paper className={classes.bgc}>
-            <Typography variant='h4' className={classes.footline}> SMART EDUCATION
-            <br />SYSTEM <FacebookIcon style={{paddingLeft: 800}}/> <TwitterIcon style={{paddingLeft: 7}}/> 
+            <Typography variant='h4' className={classes.footline}> MULTILINGUAL EDUCATION
+            <br />SYSTEM <FacebookIcon style={{paddingLeft:800}}/> <TwitterIcon style={{paddingLeft: 7}}/> 
             <InstagramIcon style={{paddingLeft: 15}}/> <LinkedInIcon style={{paddingLeft: 10}}/>
             <p className={classes.subline}> The free, fun and effective way of learning English!</p></Typography><br/>
         </Paper>
