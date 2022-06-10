@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -28,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function VocabDevComp() {
+
+  const location = useLocation();
+
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
@@ -44,7 +48,7 @@ function VocabDevComp() {
   const fetchChp = async () => {
     setIsChapterLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/chapters/1"
+      "http://192.168.43.61:8000/chapters/" + location.state.id
     );
     const data = await response.json()
     setIsChapterLoading(false)
@@ -54,7 +58,7 @@ function VocabDevComp() {
   const fetchVocab = async () => {
     setIsKeywordLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/keyword/1"
+      "http://192.168.43.61:8000/keyword/" + location.state.id
     );
     const data = await response.json()
     const renderData = (data["keywords"]).map((item) => {      
@@ -69,6 +73,8 @@ function VocabDevComp() {
         <br />
       </Typography>
     });
+    console.log("HERE")
+    console.log(typeof renderData)
     setIsKeywordLoading(false)
     setVocabContent(renderData)
   }

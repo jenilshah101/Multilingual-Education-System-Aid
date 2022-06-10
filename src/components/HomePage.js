@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,16 +17,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea, CardActions } from '@mui/material';
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const useStyles = makeStyles((theme) => ({
   homepage: {
-    display: 'flex',  
+    display: 'flex',
     '& > *': {
     },
   },
   bluecolor: {
     backgroundColor: 'white',
-    padding:30
+    padding: 30
   },
   bluecolorcpy: {
     backgroundColor: lightblue[300],
@@ -34,349 +35,117 @@ const useStyles = makeStyles((theme) => ({
   },
   bluecolorcpy1: {
     backgroundColor: lightblue[300],
-    fontSize: 15,   
+    fontSize: 15,
   },
   appb: {
     backgroundColor: lightblue[300],
   },
   study: {
     width: '100%',
-  },  
+  },
 }));
 
 
 function Homepage() {
   const classes = useStyles();
   const navigate = useNavigate();
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate("/vocabdev");
+
+  const [chapterContent, setChapterContent] = useState([]);
+  const [isChapterLoading, setIsChapterLoading] = useState(false);
+
+  const handleSubmit = (chpId) => {
+    console.log(chpId)
+    navigate("/vocabdev", {state : {id: chpId}});
   };
-  
+
+  const fetchChps = async () => {
+    setIsChapterLoading(true)
+    const response = await fetch(
+      "http://192.168.43.61:8000/chapters"
+    );
+    const data = await response.json()
+
+    let carouselItem = data.map((item) => {
+      return (<Carousel.Item>
+        <Card sx={{ maxWidth: 200 }} variant="outlined">
+          <CardActionArea>
+            <CardContent style={{ flex: '1 0 auto' }}>
+              <div style={{ position: 'relative' }} >
+                <CardMedia style={{ display: 'flex', objectFit: 'contain' }}
+                  component="img"
+                  image="/Group 53.png"
+                  alt="chpbg"
+                />
+                <div style={{
+                  position: 'absolute',
+                  color: 'white',
+                  top: 20,
+                  left: '18%',
+                  fontSize: 20,
+
+                }} >{item["name"]}</div></div>
+              <CardActions style={{ paddingLeft: 70 }}>
+                <Button variant="contained" className={classes.bluecolorcpy1} onClick={() => handleSubmit(item["id"])}>
+                  LEARN
+                </Button>
+              </CardActions>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Carousel.Item>)
+    })
+
+    setIsChapterLoading(false)
+    setChapterContent(carouselItem)
+  }
+
+  useEffect(() => {
+    fetchChps()
+  }, []);
+
   return (
     <div>
-        <AppBar position="static" className={classes.appb}>
+      <AppBar position="static" className={classes.appb}>
         <Toolbar>
-        <h2 style={{paddingLeft: 300}}><center>SEARCH <br/>ANYTHING &nbsp;</center></h2> <TextField style={{width:'40%'}}
-                margin="normal"
-                id="uname"
-                name="Search"
-                placeholder="Ex. Chapter 2"/>
+          <h2 style={{ paddingLeft: 300 }}><center>SEARCH <br />ANYTHING &nbsp;</center></h2> <TextField style={{ width: '40%' }}
+            margin="normal"
+            id="uname"
+            name="Search"
+            placeholder="Ex. Chapter 2" />
         </Toolbar>
-        </AppBar>
-        <div><center><img src={head} alt='tp' className={classes.study}></img></center></div>
-        <br/>
+      </AppBar>
+      <div><center><img src={head} alt='tp' className={classes.study}></img></center></div>
+      <br />
 
-        <div className={classes.homepage}>
-        <Paper elevation={3} style = {{width: '100%'}}>
-        <Box p={1.5} className={classes.bluecolor}>
-          <Typography variant="h4" style={{ textAlign: 'left' , color:'black',paddingLeft: 35, fontFamily:'fantasy'}}>
-            CHAPTERS
-          </Typography><br/>
-          
-          <Carousel cols={6} rows={1} gap={1} loop>
-            
-            <Carousel.Item>
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 1</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
+      <div className={classes.homepage}>
+        <Paper elevation={3} style={{ width: '100%' }}>
+          <Box p={1.5} className={classes.bluecolor}>
+            <Typography variant="h4" style={{ textAlign: 'left', color: 'black', paddingLeft: 35, fontFamily: 'fantasy' }}>
+              CHAPTERS
+            </Typography><br />
 
-            <Carousel.Item>
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 2</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
+            <Carousel cols={6} rows={1} gap={1} loop>
+              {isChapterLoading ? <LoadingSpinner /> : chapterContent}
+            </Carousel>
+            <br />
+          </Box>
 
-            <Carousel.Item>
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 3</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 4</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 5</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 6</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 7</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 8</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 9</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-
-            <Carousel.Item>    
-            <Card sx={{ maxWidth: 200 }} variant="outlined">
-            <CardActionArea>
-            <CardContent style={{flex: '1 0 auto'}}>   
-            <div style={{position: 'relative'}} >
-            <CardMedia style={{display:'flex', objectFit:'contain'}}
-            component="img"
-            image="/Group 53.png"
-            alt="chpbg"
-            />
-            <div style={{
-                          position: 'absolute', 
-                          color: 'white', 
-                          top: 20, 
-                          left: '18%',
-                          fontSize: 20, 
-                          
-                        }} >CHAPTER 10</div></div>      
-            <CardActions style={{paddingLeft:70}}>
-            <Button variant="contained" className={classes.bluecolorcpy1} onClick={handleSubmit}>
-                LEARN
-              </Button>
-            </CardActions>
-            </CardContent>        
-            </CardActionArea>
-            </Card>
-            </Carousel.Item>
-            
-          </Carousel>
-            <br/>
-        </Box>
-      
-      <br/>
-      <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right' , paddingRight: 30}}>
+          <br />
+          <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right', paddingRight: 30 }}>
             <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/addchapter");}}>
+              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/addchapter"); }}>
                 ADD CHAPTER
               </Button>
             </Grid>
-      </Grid>
+          </Grid>
 
-          <br/>
-      </Paper>
+          <br />
+        </Paper>
       </div>
-    
-    <div><br />
-    <Footer></Footer>  
-    </div>
+
+      <div><br />
+        <Footer></Footer>
+      </div>
     </div>
   );
 }
