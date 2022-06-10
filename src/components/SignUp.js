@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Link , useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -31,10 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Signup() {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
     event.preventDefault();
-
+    navigate("/login");
   };
 
   return (
@@ -96,7 +97,7 @@ function Signup() {
                 Register
             </Button>  <br/><br/>          
             <Grid item>I have an account! 
-                  <Link href="" variant="body1">
+                  <Link to="/login" variant="body1">
                     {" Login"}
                   </Link>
                 </Grid>

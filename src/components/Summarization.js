@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -34,9 +35,11 @@ function SummarizeAndTranslate() {
   const [isLoading, setIsLoading] = useState(false);
 
   const classes = useStyles();
+  const navigate = useNavigate();
   
   const handleSubmit = (event) => {
     event.preventDefault();
+    navigate("/grammar");
   };
 
   const fetchSummaryNTranslation = async () => {
@@ -86,7 +89,7 @@ function SummarizeAndTranslate() {
       <br/>
       <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right' , paddingRight: 30}}>
             <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
+              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/vocabdev");}}>
                 BACK
               </Button>
             </Grid>
