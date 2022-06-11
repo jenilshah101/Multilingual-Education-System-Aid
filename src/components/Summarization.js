@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Header from "./Header"
 import Footer from "./Footer"
 import LoadingSpinner from "../utility/LoadingSpinner";
+import * as con from '../constants'
 
 const useStyles = makeStyles((theme) => ({
   summarization: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 function SummarizeAndTranslate() {
 
+  const location = useLocation();
+
   const [stContent, setStContent] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,13 +42,13 @@ function SummarizeAndTranslate() {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/grammar");
+    navigate("/grammar", {state : {id: location.state.id}});
   };
 
   const fetchSummaryNTranslation = async () => {
     setIsLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/summarize/1"
+      con.BASE_URI + "/summarize/" + location.state.id
     );
     const data = await response.json()    
     setIsLoading(false)

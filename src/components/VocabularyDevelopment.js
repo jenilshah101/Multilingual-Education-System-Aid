@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {useLocation} from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
@@ -11,6 +11,9 @@ import Grid from "@material-ui/core/Grid";
 import Header from "./Header";
 import Footer from "./Footer";
 import LoadingSpinner from "../utility/LoadingSpinner";
+import * as con from "../constants";
+import Chip from "@mui/material/Chip";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -29,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function VocabDevComp() {
-
   const location = useLocation();
 
   const [chapterContent, setChapterContent] = useState("");
@@ -42,46 +44,98 @@ function VocabDevComp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/summarization");
+    navigate("/summarization", { state: { id: location.state.id } });
   };
 
   const fetchChp = async () => {
-    setIsChapterLoading(true)
+    setIsChapterLoading(true);
     const response = await fetch(
-      "http://192.168.43.61:8000/chapters/" + location.state.id
+      con.BASE_URI + "/chapters/" + location.state.id
     );
-    const data = await response.json()
-    setIsChapterLoading(false)
-    setChapterContent(data["content"])
-  }
+    const data = await response.json();
+    setIsChapterLoading(false);
+    setChapterContent(data["content"]);
+  };
 
   const fetchVocab = async () => {
-    setIsKeywordLoading(true)
+    setIsKeywordLoading(true);
     const response = await fetch(
-      "http://192.168.43.61:8000/keyword/" + location.state.id
+      con.BASE_URI + "/keyword/" + location.state.id
     );
-    const data = await response.json()
-    const renderData = (data["keywords"]).map((item) => {      
-      return <Typography style={{ textAlign: "left", padding: 10 }}>
-        <span style = {{fontWeight: 'bold'}}> Word:</span> {item["word"]}
-        <br />
-        <span style = {{fontWeight: 'bold'}}>Definition: <br /></span>{item["definition"].toString()}
-        <br />
-        <span style = {{fontWeight: 'bold'}}>Synonyms: <br /></span>{item["synonyms"].toString()}
-        <br />
-        <span style = {{fontWeight: 'bold'}}>Antonyms: <br /></span>{item["antonyms"].toString()}
-        <br />
-      </Typography>
+    const data = await response.json();
+    const renderData = data["keywords"].map((item) => {
+      if(item["definition"].length <= 0 && item["synonyms"].length <= 0)
+        return <div></div>   
+      return (
+        <Typography style={{ textAlign: "left", padding: 10 }}>
+          <>
+            <div>
+              <span style={{ marginRight: "5px" }}>Word:</span>
+              <span>
+                <Chip label={item["word"]} color="primary" variant="outlined" />
+              </span>
+            </div>
+            <div>Definition:</div>
+            <div>
+              <ol>
+                {item["definition"].map((item) => {
+                  return <li> {item} </li>;
+                })}
+              </ol>
+            </div>
+            {item["synonyms"].length > 0 ? (
+              <div style={{marginBottom: '5px'}}>
+                <span style={{ marginRight: "5px" }}>Synonyms:</span>
+                <span>
+                  {item["synonyms"].map((item) => {
+                    return (
+                      <Chip
+                        label={item}
+                        color="success"
+                        variant="outlined"
+                        style={{ marginRight: "5px" }}
+                      />
+                    );
+                  })}
+                </span>
+              </div>
+            ) : (
+              <></>
+            )}
+            {item["antonyms"].length > 0 ? (
+              <div>
+                <span style={{ marginRight: "5px" }}>Antonyms:</span>
+                <span>
+                  {item["antonyms"].map((item) => {
+                    return (
+                      <Chip
+                        label={item}
+                        color="error"
+                        variant="outlined"
+                        style={{ marginRight: "5px" }}
+                      />
+                    );
+                  })}
+                </span>
+              </div>
+            ) : (
+              <></>
+            )}
+          </>
+          <br />
+          <Divider />
+        </Typography>
+      );
     });
-    console.log("HERE")
-    console.log(typeof renderData)
-    setIsKeywordLoading(false)
-    setVocabContent(renderData)
-  }
+    console.log("HERE");
+    console.log(typeof renderData);
+    setIsKeywordLoading(false);
+    setVocabContent(renderData);
+  };
 
   useEffect(() => {
-    fetchChp()
-    fetchVocab()
+    fetchChp();
+    fetchVocab();
   }, []);
 
   return (
@@ -100,9 +154,7 @@ function VocabDevComp() {
             <br />
             <Paper elevation={2}>
               <Typography style={{ textAlign: "left", padding: 10 }}>
-                {
-                  isChapterLoading ? <LoadingSpinner /> : chapterContent
-                }
+                {isChapterLoading ? <LoadingSpinner /> : chapterContent}
               </Typography>
             </Paper>
             <br />
@@ -115,9 +167,7 @@ function VocabDevComp() {
             <br />
             <Paper elevation={2}>
               <Typography style={{ textAlign: "left", padding: 10 }}>
-                {
-                  isVocabContentLoading ? <LoadingSpinner /> : vocabContent
-                }
+                {isVocabContentLoading ? <LoadingSpinner /> : vocabContent}
               </Typography>
             </Paper>
           </Box>
@@ -132,7 +182,13 @@ function VocabDevComp() {
             }}
           >
             <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/home"); }}>
+              <Button
+                variant="contained"
+                className={classes.bluecolorcpy}
+                onClick={() => {
+                  navigate("/home");
+                }}
+              >
                 BACK
               </Button>
             </Grid>

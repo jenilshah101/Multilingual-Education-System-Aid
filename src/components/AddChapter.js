@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Header from "./Header";
 import Footer from "./Footer";
 import TextField from '@mui/material/TextField';
+import * as con from '../constants'
 
 const useStyles = makeStyles((theme) => ({
   addchap: {
@@ -56,7 +57,7 @@ function AddStudyChapter() {
         content: values.content
       })
     };
-    fetch("http://192.168.43.61:8000/chapters", requestOptions)
+    fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
         console.log(response)
         if (response.status == 201)

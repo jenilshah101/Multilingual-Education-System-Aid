@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +13,7 @@ import Footer from "./Footer"
 import GmCard from "../utility/GrammarCard";
 import SvoCard from "../utility/SvoCard";
 import LoadingSpinner from "../utility/LoadingSpinner";
+import * as con from '../constants'
 
 const useStyles = makeStyles((theme) => ({
   grammar: {
@@ -38,6 +39,7 @@ function GrammaticalAndAssessment() {
   const [svoInfo, setSvoInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const location = useLocation();
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -50,7 +52,7 @@ function GrammaticalAndAssessment() {
   const fetchGrammar = async () => {
     setIsLoading(true)
     const response = await fetch(
-      "http://192.168.43.61:8000/grammar/1"
+      con.BASE_URI + "/grammar/" + location.state.id
     );
     const data = await response.json()
 
