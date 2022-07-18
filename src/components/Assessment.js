@@ -9,6 +9,7 @@ import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from '@material-ui/core/Grid';
 import Header from "./Header"
 import Footer from "./Footer"
+import SelfEvalComp from "./Mcq";
 
 const useStyles = makeStyles((theme) => ({
     grammar: {
@@ -32,7 +33,11 @@ function GrammaticalAndAssessment() {
 
     const classes = useStyles();
     const navigate = useNavigate();
-
+    const [value1, setValue1] = React.useState('');
+    const [value2, setValue2] = React.useState('');
+    const [value3, setValue3] = React.useState('');
+    const [value4, setValue4] = React.useState('');
+    const [value5, setValue5] = React.useState('');
     const handleSubmit = (event) => {
         event.preventDefault();
         navigate("/home");
@@ -40,42 +45,12 @@ function GrammaticalAndAssessment() {
 
     return (
         <div>
-            <Header></Header><br />
-            <div className={classes.grammar}>
-
-                <Paper elevation={3} style={{ width: '100%' }}>
-                    <Box p={1.5} className={classes.bluecolor}>
-                        <Typography variant="h4" style={{ textAlign: 'left', color: 'white' }}>
-                            Assessment
-                        </Typography><br />
-                        <Paper elevation={2}>
-                            <Typography style={{ textAlign: 'left', padding: 10 }}>
-                                MCQ's here
-                            </Typography>
-                        </Paper>
-
-                    </Box>
-                    <br />
-                    <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right', paddingRight: 30 }}>
-                        <Grid item>
-                            <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/grammar"); }}>
-                                BACK
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
-                                END CHAPTER
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <br />
-                </Paper>
-            </div>
-            <div><br />
-                <Footer></Footer>
-            </div>
+             <Header></Header><br /> 
+             <SelfEvalComp/> <br/>
+             <Footer></Footer>
         </div>
-    );
+    )
+    SelfEvalComp();
 }
 
 export default GrammaticalAndAssessment;

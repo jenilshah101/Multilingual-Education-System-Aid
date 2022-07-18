@@ -75,6 +75,12 @@ function VocabDevComp() {
                 <Chip label={item["word"]} color="primary" variant="outlined" />
               </span>
             </div>
+            <div>
+              <span style={{ marginRight: "5px" }}>Translation of Word:</span>
+              <span>
+                <Chip label={item["translatedWord"]} color="primary" variant="outlined" />
+              </span>
+            </div>
             <div>Definition:</div>
             <div>
               <ol>
@@ -117,6 +123,20 @@ function VocabDevComp() {
                     );
                   })}
                 </span>
+              </div>
+            ) : (
+              <></>
+            )}
+            {item["example"].length > 0 ? (
+              <div style={{marginBottom: '5px'}}>
+                <span style={{ marginRight: "5px" }}>Example:</span>
+                <ul>
+                  {item["example"].map((item) => {
+                    return (
+                      <li>{item}</li>
+                    );
+                  })}
+                </ul>
               </div>
             ) : (
               <></>
